@@ -1,0 +1,6 @@
+[submodule "lib/Phresnel"]
+	path = lib/Phresnel
+	url = git@github.com:lobid/Phresnel.git
+[submodule "lib/web"]
+	path = lib/web
+	url = git@github.com:literarymachine/web.php.git

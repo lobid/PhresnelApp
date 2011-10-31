@@ -23,9 +23,8 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 'On');
 ini_set('display_startup_errors', 'On');
 
-require_once('lib/phresnel/Phresnel.php');
+require_once('lib/Phresnel/Phresnel.php');
 require_once('lib/web/web.php');
-require_once('lib/KLogger/src/KLogger.php');
 
 // Controller classes
 require_once('controllers/GenericInclude.php');
