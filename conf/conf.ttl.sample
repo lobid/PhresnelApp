@@ -1,0 +1,8 @@
+# Configuration
+
+@prefix phresnel:   <http://literarymachine.net/ontology/phresnel#> .
+@prefix :           <#> .
+
+:lobid
+    a phresnel:app ;
+    phresnel:lenses <file:///path/to/lenses.ttl> .

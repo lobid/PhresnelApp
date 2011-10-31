@@ -1,0 +1,50 @@
+table {
+    background-color: #EEEEEE;
+    width: 90%;
+}
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    border: 0;
+    clear: both;
+}
+
+select, textarea{
+    width: 95%;
+}
+
+textarea {
+    height: 100px;
+}
+
+label {
+    padding-bottom: 1em;
+    font-size: smaller;
+    color: green;
+}
+td {
+    background-color: white;
+    vertical-align:top;
+}
+input.remove {
+    float: right;
+}
+td.rlabel {
+    background-color: #EEEEEE;
+    height: 30px;
+}
+td.rlabel > span {
+    display: none;
+}
+td.plabel {
+    width: 1px;
+    padding-right: 10px;
+    white-space:nowrap;
+}
+input[type="text"] {
+    border: 0;
+    background-color: #FFFFFF;
+    width: 100%;
+}

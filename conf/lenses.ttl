@@ -1,0 +1,147 @@
+@prefix lm:       <http://literarymachine.net/ontology/lm#> .
+@prefix fresnel:  <http://www.w3.org/2004/09/fresnel#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix vcard:    <http://www.w3.org/2006/vcard/ns#> .
+@prefix dc:       <http://purl.org/dc/terms/> .
+@prefix org:      <http://www.w3.org/ns/org#> .
+@prefix :         <#> .
+
+
+# Document Lens Definitions
+
+:document
+    a fresnel:Lens ;
+    fresnel:classLensDomain foaf:Document ;
+    fresnel:showProperties (
+        dc:title
+        [ a fresnel:PropertyDescription ;
+            fresnel:property dc:creator ;
+            fresnel:sublens :personList ]
+    ) .
+
+:documentList
+    a fresnel:Lens ;
+    fresnel:classLensDomain foaf:Document ;
+    fresnel:purpose lm:linkLens ;
+    fresnel:showProperties (
+        dc:title
+    ) .
+
+# Document Format Definitions
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain dc:title ;
+    fresnel:label "Titel"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain dc:creator ;
+    fresnel:label "Autor"@de .
+
+# Person Lens Definitions
+
+:person
+    a fresnel:Lens ;
+    fresnel:classLensDomain foaf:Person ;
+    fresnel:showProperties (
+        foaf:familyName
+        foaf:givenName
+        [ a fresnel:PropertyDescription ;
+            fresnel:property vcard:adr ;
+            lm:optional "true"^^xsd:boolean ;
+            fresnel:sublens :address ]
+        [ a fresnel:PropertyDescription ;
+            fresnel:property org:memberOf ;
+            fresnel:sublens :organisationList ]
+    ) .
+
+:personList
+    a fresnel:Lens ;
+    fresnel:purpose lm:linkLens ;
+    fresnel:classLensDomain foaf:Person ;
+    fresnel:showProperties (
+        foaf:familyName
+        foaf:givenName
+    ) .
+
+# Person Format Definitions
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain foaf:familyName ;
+    fresnel:label "Nachname"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain foaf:givenName ;
+    fresnel:label "Vorname"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain org:memberOf ;
+    fresnel:label "Institution"@de .
+
+# Organisation Lens Definitions
+
+:organisation
+    a fresnel:Lens ;
+    fresnel:classLensDomain foaf:Organization ;
+    fresnel:showProperties (
+        foaf:name
+        [ a fresnel:PropertyDescription ;
+            fresnel:property vcard:adr ;
+            lm:optional "true"^^xsd:boolean ;
+            fresnel:sublens :address ]
+    ) .
+
+:organisationList
+    a fresnel:Lens ;
+    fresnel:classLensDomain foaf:Organization ;
+    fresnel:purpose lm:linkLens ;
+    fresnel:showProperties (
+        foaf:name
+    ) .
+
+# Organisation Format Definitions
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain foaf:name ;
+    fresnel:label "Name"@de .
+
+# Vcard Lens Definitions
+
+:address
+    a fresnel:Lens ;
+    fresnel:classLensDomain vcard:Work ;
+    fresnel:showProperties (
+        vcard:street-address
+        vcard:postal-code
+        vcard:locality
+        vcard:country-name
+    ) .
+
+:tel
+    a fresnel:Lens ;
+    fresnel:classLensDomain vcard:Work ;
+    fresnel:showProperties (
+        rdf:value
+    ) .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain vcard:street-address ;
+    fresnel:label "Straße"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain vcard:postal-code ;
+    fresnel:label "PLZ"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain vcard:locality ;
+    fresnel:label "Ort"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain vcard:country-name ;
+    fresnel:label "Land"@de .
+
+[] a fresnel:Format ;
+    fresnel:propertyFormatDomain vcard:adr ;
+    fresnel:label "Anschrift"@de .
+
