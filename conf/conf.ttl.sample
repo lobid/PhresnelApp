@@ -3,6 +3,6 @@
 @prefix phresnel:   <http://literarymachine.net/ontology/phresnel#> .
 @prefix :           <#> .
 
-:lobid
+:PhresnelApp
     a phresnel:app ;
     phresnel:lenses <file:///path/to/lenses.ttl> .
