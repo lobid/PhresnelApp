@@ -1,6 +1,10 @@
 This is a demo app for [Phresnel](https://github.com/lobid/Phresnel), an incomplete, experimental PHP implementation of the [Fresnel Display Vocabulary for RDF](http://www.w3.org/2005/04/fresnel-info/). To install it, clone this git repository recursively into a directory available to your webserver:
 
-$ git clone --recursive https://github.com/lobid/PhresnelApp.git
+    $ git clone --recursive https://github.com/lobid/PhresnelApp.git
+
+Phresnel uses [LibRDF](https://github.com/literarymachine/LibRDF), which is a simple OO rapper around the PHP5 language bindings for the Redland RDF library and thus needs these bindings to be installed. This works out-of-the-box for me on Ubuntu 10.10, later versions of the bindings unfortunately lead to yet to be traced segfaults:
+
+    $ sudo aptitude install php5-librdf
 
 The demo app and all necessary libraries should now be installed. Next, create the config file in the conf/ directory:
 
