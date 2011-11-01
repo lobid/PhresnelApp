@@ -1,4 +1,12 @@
-This is a demo app for [Phresnel](https://github.com/lobid/Phresnel), an incomplete, experimental PHP implementation of the [Fresnel Display Vocabulary for RDF](http://www.w3.org/2005/04/fresnel-info/). To install it, clone this git repository recursively into a directory available to your webserver:
+This is a demo app for [Phresnel](https://github.com/lobid/Phresnel), an incomplete, experimental PHP implementation of the [Fresnel Display Vocabulary for RDF](http://www.w3.org/2005/04/fresnel-info/) that includes a browser based editor for RDF data.
+
+You can try it out here:
+
+    http://literarymachine.net/PhresnelApp/organisation
+    http://literarymachine.net/PhresnelApp/person
+    http://literarymachine.net/PhresnelApp/document
+
+To install it locally, clone this git repository recursively into a directory available to your webserver:
 
     $ git clone --recursive https://github.com/lobid/PhresnelApp.git
 
