@@ -33,16 +33,19 @@ class GenericDisplay extends WebController {
                 $this->_response->writeHead(200, array("Content-Type" => "application/rdf+xml"));
                 $data = $lens->getData();
                 $content = $data->serializeStatements(new LibRDF_Serializer("rdfxml-abbrev"));
+                $this->_response->write($content);
                 break;
             case 'application/x-turtle':
                 $this->_response->writeHead(200, array("Content-Type" => "application/x-turtle"));
                 $data = $lens->getData();
                 $content = $data->serializeStatements(new LibRDF_Serializer("turtle"));
+                $this->_response->write($content);
                 break;
             case 'text/plain':
                 $this->_response->writeHead(200, array("Content-Type" => "text/plain"));
                 $data = $lens->getData();
                 $content = $data->serializeStatements(new LibRDF_Serializer("ntriples"));
+                $this->_response->write($content);
                 break;
             default:
             case 'application/xhtml+xml':
@@ -51,9 +54,9 @@ class GenericDisplay extends WebController {
                 $content = $renderer->render();
                 $content .= "<a href=\"$prefix/$type/$id/about/edit\">edit</a>";
                 $content .= " <a href=\"$prefix/$type\">$type list</a>";
+                $this->_response->write($this->_app->template($content));
                 break;
         }
-        $this->_response->write($this->_app->template($content));
         $this->_response->terminate();
     }
 
