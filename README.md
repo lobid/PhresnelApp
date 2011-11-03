@@ -32,4 +32,12 @@ Point your browser to one of
 
 and click on the link to add a new description. Links e.g. from persons to organisations can only be added when an organisation already exists.
 
+Content negotiation is also possible:
+
+    $ curl -L -H "Accept: text/plain" \
+    > http://literarymachine.net/PhresnelApp/person
+
+    $ curl -L -H "Accept: application/x-turtle" \
+    > http://literarymachine.net/PhresnelApp/person/82af7cec-d711-46e9-a95f-9d42b5e445fc
+
 Play with conf/lenses.ttl to add or remove properties. Be warned: if you read the [Fresnel documentation](http://www.w3.org/2005/04/fresnel-info/manual/), don't expect *anything* to work in Phresnel. This is still an experiment.
