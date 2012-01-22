@@ -49,100 +49,21 @@ class GenericEdit extends WebController {
 
     public function POST($type, $id) {
         $prefix = $this->_request->getBaseUrl();
-        $store = new LibRDF_Storage();
-        $model = new LibRDF_Model($store);
-        foreach($_POST['content'] as $resource => $statements) {
-            if (substr($resource, 0, 1) === 'r') {
-                $subject = new LibRDF_BlankNode($resource);
-            } else {
-                $subject = new LibRDF_URINode($resource);
-            }
-            if (array_key_exists('data', $statements)) {
-                foreach($statements['data'] as $predicate => $objects) {
-                    foreach($objects as $object) {
-                        $model->addStatement(new LibRDF_Statement(
-                                    $subject,
-                                    new LibRDF_URINode($predicate),
-                                    new LibRDF_LiteralNode($object)
-                                    ));
-                    }
-                }
-            }
-            if (array_key_exists('object', $statements)) {
-                foreach($statements['object'] as $predicate => $objects) {
-                    foreach($objects as $object) {
-                        if (substr($object, 0, 1) === 'r') {
-                            $object = new LibRDF_BlankNode($object);
-                        } else {
-                            $object = new LibRDF_URINode($object);
-                        }
-                        $model->addStatement(new LibRDF_Statement(
-                                    $subject,
-                                    new LibRDF_URINode($predicate),
-                                    $object
-                                    ));
-                    }
-                }
-            }
-        }
+        $base = $this->_request->getBaseUrl();
+        $domain = $this->_request->getDomain();
+        $uri = new LibRDF_URINode("http://$domain$base/$type/$id");
+        $model = AbstractFormBoxModel::handlePostData($_POST);
+        $lens = Phresnel::getLens($type);
+        $lens->loadResource($uri, $model);
+        $renderer = new HTMLTableFormBoxModel($lens);
 
-        if (isset($_POST['remove'])) {
-            $s = key($_POST['remove']);
-            $cls = key($_POST['remove'][$s]);
-            $p = key($_POST['remove'][$s][$cls]);
-            $o = key($_POST['remove'][$s][$cls][$p]);
-
-            if (substr($s, 0, 1) !== 'r') {
-                $s = new LibRDF_URINode($s);
-            } else {
-                $s = new LibRDF_BlankNode($s);
-            }
-
-            if ('object' === $cls and substr($o, 0, 1) !== 'r') {
-                $o = new LibRDF_URINode($o);
-            } else if ('object' === $cls) {
-                $o = new LibRDF_BlankNode($o);
-            } else {
-                $o = new LibRDF_LiteralNode($o);
-            }
-
-            $p = new LibRDF_URINode($p);
-
-            foreach ($model->findStatements($s, $p, $o) as $statement) {
-                $model->removeStatement($statement);
-            }
-        } else if (isset($_POST['add'])) {
-            $s = key($_POST['add']);
-            $cls = key($_POST['add'][$s]);
-            $p = key($_POST['add'][$s][$cls]);
-
-
-            if (isset($_POST['link'][$s][$cls][$p])) {
-                $o = new LibRDF_URINode($_POST['link'][$s][$cls][$p]);
-            } else if ('object' === $cls) {
-                $o = new LibRDF_BlankNode();
-            } else {
-                $o = new LibRDF_LiteralNode();
-            }
-            
-            if (substr($s, 0, 1) != 'r') {
-                $s = new LibRDF_URINode($s);
-            } else {
-                $s = new LibRDF_BlankNode($s);
-            }
-            
-            $p = new LibRDF_URINode($p);
-            $model->addStatement(new LibRDF_Statement($s, $p, $o));
-        } else {
-            $lens = Phresnel::getLens($type);
-            $base = $this->_request->getBaseUrl();
-            $domain = $this->_request->getDomain();
-            $uri = new LibRDF_URINode("http://$domain$base/$type/$id");
-            $lens->loadResource($uri, $model);
-            $prefix = $this->_request->getBaseUrl();
-
+        if (isset($_POST['remove']) or isset($_POST['add'])) {
             $this->_response->writeHead(200, array("Content-Type" => "application/xhtml+xml"));
-
+            $html = $renderer->render();
+            $this->_response->write($this->_app->template($html));
+            $this->_response->terminate();
+        } else {
+            $this->_response->writeHead(200, array("Content-Type" => "application/xhtml+xml"));
             switch ($_POST['format']) {
                 case 'RDFa':
                     $renderer = new HTMLTableBoxModel($lens);
@@ -180,15 +101,5 @@ class GenericEdit extends WebController {
             $this->_response->terminate();
             return;
         }
-        $lens = Phresnel::getLens($type);
-        $base = $this->_request->getBaseUrl();
-        $domain = $this->_request->getDomain();
-        $uri = new LibRDF_URINode("http://$domain$base/$type/$id");
-        $lens->loadResource($uri, $model);
-        $this->_response->writeHead(200, array("Content-Type" => "application/xhtml+xml"));
-        $renderer = new HTMLTableFormBoxModel($lens);
-        $html = $renderer->render();
-        $this->_response->write($this->_app->template($html));
-        $this->_response->terminate();
     }
 }
