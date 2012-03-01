@@ -53,6 +53,7 @@ class PhresnelApp extends WebApp {
      * @return TODO
      */
     public function dispatch() {
+        LibRDF_LiteralNode::setPlainOutput(true);
         $model = new LibRDF_Model(new LibRDF_Storage);
         $data = "";
         foreach (glob(dirname(__FILE__)."/../db/*.ttl") as $filename) {
