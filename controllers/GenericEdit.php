@@ -78,8 +78,8 @@ class GenericEdit extends WebController {
                 case 'Save':
                     $data = $lens->getData();
                     $content = $data->serializeStatements(new LibRDF_Serializer("turtle"));
-                    $uri = new LibRDF_URINode("http://$domain$base/$type/$id");
-                    $filename = dirname(dirname(__FILE__)).'/db/'.md5($uri).'.ttl';
+                    //$uri = new LibRDF_URINode("http://$domain$base/$type/$id");
+                    $filename = dirname(dirname(__FILE__)).'/db/'.$id.'.ttl';
                     file_put_contents($filename, $content);
                     $base = $this->_request->getBaseUrl();
                     $domain = $this->_request->getDomain();
